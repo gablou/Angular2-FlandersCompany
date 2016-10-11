@@ -1,21 +1,10 @@
 import { Component } from '@angular/core';
 import { Villain } from './villain';
-
-const  VILLAIN: Villain[] = [
-  { id: 11, name: 'Mr. Nice' },
-  { id: 12, name: 'Narco' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' }
-];
+import { VillainService } from "./villain.service";
 
 @Component({
     selector: 'my-app',
+    providers: [VillainService],
     template: `
       <h1>{{title}}</h1>
       <h2>My Villains</h2>
@@ -81,8 +70,19 @@ const  VILLAIN: Villain[] = [
 })
 export class AppComponent {
   title = "Flander's Company";
-  villains = VILLAIN;
+  villains: Villain[];
   selectedVillain: Villain;
+
+  constructor(private  villainService: VillainService) { }
+
+  ngOnInit():void {
+    this.getVillain();
+  }
+
+  getVillain(): void {
+    this.villainService.getVillain().then(villains => this.villains = villains);
+  }
+
   onSelect(villain: Villain): void {
     this.selectedVillain = villain;
   }
