@@ -1,20 +1,34 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params }   from '@angular/router';
+import { Location }                 from '@angular/common';
 import { Villain } from "./villain";
+import { VillainService } from "./villain.service";
 
 @Component({
   selector: 'my-villain-detail',
-  template: `
-        <div *ngIf="villain">
-          <h2>{{villain.name}} details!</h2>
-          <div><label>id: </label>{{villain.id}}</div>
-          <div>
-              <label>name: </label>
-              <input [(ngModel)]="villain.name" placeholder="name"/>
-          </div>
-        </div>
-        `
+  moduleId: module.id,
+  templateUrl: "villain-detail.component.html",
+  styleUrls: ["villain-detail.component.css"]
 })
-export class VillainDetailComponent {
+export class VillainDetailComponent implements OnInit {
+  constructor(
+    private villainService: VillainService,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {}
+
+  ngOnInit(): void {
+    this.route.params.forEach((params: Params) => {
+      let id = +params['id'];
+      this.villainService.getVillainById(id)
+        .then(villain => this.villain = villain);
+    });
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
   @Input()
   villain: Villain;
 }

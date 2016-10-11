@@ -7,4 +7,8 @@ export class VillainService {
   getVillain():  Promise<Villain[]>{
     return Promise.resolve(VILLAIN);
   }
+  getVillainById(id: number): Promise<Villain> {
+    return this.getVillain()
+               .then(villains => villains.find(villain => villain.id === id));
+  }
 }
