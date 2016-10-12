@@ -29,6 +29,11 @@ export class VillainDetailComponent implements OnInit {
     this.location.back();
   }
 
+  save(): void {
+    this.villainService.update(this.villain)
+      .then(() => this.goBack());
+  }
+
   @Input()
   villain: Villain;
 }

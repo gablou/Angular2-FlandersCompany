@@ -1,10 +1,19 @@
 <h2>My Villains</h2>
+<div>
+  <label>Hero name:</label> <input #heroName />
+  <button (click)="add(heroName.value); heroName.value=''">
+    Add
+  </button>
+</div>
 <ul class="villain">
   <li *ngFor="let villain of villains"
       (click)="onSelect(villain)"
       [class.selected]="villain === selectedVillain"
   >
-    <span class="badge">{{villain.id}}</span> {{villain.name}}
+    <span class="badge">{{villain.id}}</span>
+    <span>{{villain.name}}</span>
+    <button class="delete"
+            (click)="delete(villain); $event.stopPropagation()">x</button>
   </li>
 </ul>
 <div *ngIf="selectedVillain">

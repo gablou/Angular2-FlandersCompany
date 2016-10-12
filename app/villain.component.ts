@@ -35,4 +35,23 @@ export class VillainComponent implements OnInit {
     this.selectedVillain = villain;
   }
 
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.villainService.create(name)
+      .then(hero => {
+        this.villains.push(hero);
+        this.selectedVillain = null;
+      });
+  }
+
+  delete(villain: Villain): void {
+    this.villainService
+      .delete(villain.id)
+      .then(() => {
+        this.villains = this.villains.filter(h => h !== villain);
+        if (this.selectedVillain === villain) { this.selectedVillain = null; }
+      });
+  }
+
 }
